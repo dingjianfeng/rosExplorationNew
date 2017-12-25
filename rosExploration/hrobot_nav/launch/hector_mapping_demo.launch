@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+  <include file="$(find hrobot_driver)/launch/demo.launch"/>
+
+  <include file="$(find urg_node)/launch/urg_lidar.launch"/>
+
+  <include file="$(find dashgo_description)/launch/dashgo_description.launch"/>
+
+<!--
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" 
+   args="0.18 0.0 0.2 -3.14 0.0 0.0 /base_footprint /laser 40" />
+  <include file="$(find hrobot_nav)/launch/include/odom/gmapping.launch"/>
+  <include file="$(find hrobot_nav)/launch/include/odom/teb_move_base.launch"/>
+-->
+
+
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" 
+   args="0.18 0.0 0.2 0.0 0.0 0.0 /base_footprint /laser 40" />	
+
+  <include file="$(find hrobot_nav)/launch/include/hector/hector_mapping.launch"/>
+  <include file="$(find hrobot_nav)/launch/include/hector/move_base.launch"/>
+
+</launch>

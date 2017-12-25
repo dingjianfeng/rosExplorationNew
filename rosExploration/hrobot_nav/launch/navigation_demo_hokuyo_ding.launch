@@ -1,0 +1,55 @@
+<launch>
+  <include file="$(find hrobot_driver)/launch/demo.launch"/>
+
+<!--
+    <node name="urg_node"          pkg="urg_node"  type="urg_node" output="screen">
+    <param name="serial_port"         type="string" value="/dev/ttyACM0"/>  
+    <param name="serial_baudrate"     type="int"    value="115200"/>
+    <param name="frame_id"            type="string" value="laser"/>
+    <param name="angle_compensate"    type="bool"   value="true"/>
+    <param name="ignore_array"   type="string" value="90,270" />
+    <param name="ignore_value"  type="double"  value="0" />
+  </node>
+-->
+
+  <include file="$(find urg_node)/launch/urg_lidar.launch"/>
+
+
+
+  <include file="$(find dashgo_description)/launch/dashgo_description.launch"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" 
+    args="0.18 0.0 0.2 0.0 0.0 0.0 /base_footprint /laser 40" />
+
+  <arg name="map" default="test_map.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find hrobot_nav)/maps/$(arg map)" />
+
+  <arg name="initial_pose_x" default="0.0"/> <!-- Use 17.0 for willow's map in simulation -->
+  <arg name="initial_pose_y" default="0.0"/> <!-- Use 17.0 for willow's map in simulation -->
+  <arg name="initial_pose_a" default="0.0"/>
+  <include file="$(find hrobot_nav)/launch/include/odom/amcl.launch.xml">
+    <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
+    <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
+    <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
+  </include>
+  <include file="$(find hrobot_nav)/launch/include/odom/teb_move_base.launch"/>
+  			
+  
+  <!--node pkg="hrobot_nav" type="nav_test_lx2.py" name="nav_test" output="screen">
+    <param name="rest_time" value="10" />
+    <param name="fake_test" value="false" />
+  </node-->
+ 
+
+<!-- Start the navigation test   
+    <node pkg="hrobot_nav" type="goal" name="navigation_goals" output="screen">
+    <param name="rest_time" value="10" />
+    <param name="fake_test" value="false" />
+  </node>  
+  -->  
+  
+  
+<!--
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+  <node name="robot_pose_publisher" pkg="robot_pose_publisher" type="robot_pose_publisher" />
+-->
+</launch>

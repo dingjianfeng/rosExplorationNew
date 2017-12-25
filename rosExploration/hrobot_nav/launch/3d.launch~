@@ -1,0 +1,10 @@
+<launch>
+  <include file="$(find hrobot_driver)/launch/imu_3d.launch"/>
+
+
+  <include file="$(find dashgo_description)/launch/dashgo_description.launch"/>
+
+ <node pkg="tf" type="static_transform_publisher" name="baselink_to_velodyne" 
+   args="0.0 0.0 0.0 0.0 0 0 /base_footprint /velodyne 40" />
+
+</launch>

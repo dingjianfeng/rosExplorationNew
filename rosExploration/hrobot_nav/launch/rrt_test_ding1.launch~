@@ -1,0 +1,32 @@
+<launch>
+  <include file="$(find hrobot_driver)/launch/demo.launch"/>
+
+<!--  
+    <node name="flashgo_node"          pkg="flashgo"  type="flashgo_node" output="screen">
+    <param name="serial_port"         type="string" value="/dev/flashlidar"/>  
+    <param name="serial_baudrate"     type="int"    value="115200"/>
+    <param name="frame_id"            type="string" value="laser"/>
+    <param name="angle_compensate"    type="bool"   value="true"/>
+    <param name="ignore_array"   type="string" value="90,270" />
+    <param name="ignore_value"  type="double"  value="0" />
+  </node>
+-->
+
+  <include file="$(find urg_node)/launch/urg_lidar.launch"/>
+
+  <include file="$(find dashgo_description)/launch/dashgo_description.launch"/>
+
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" 
+   args="0.18 0.0 0.2 0.0 0.0 0.0 /base_footprint /laser 40" />
+  <include file="$(find hrobot_nav)/launch/include/odom/move_baseSafe_dingnew.launch">
+      <arg name="namespace" value="robot_1"/>
+  </include>
+
+
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find hrobot_nav)/launch/include/rviz_config/rrt_test.rviz">
+<!--
+    <remap from="move_base_simple/goal" to="robot_1/move_base_simple/goal"/>
+-->  
+</node>
+
+</launch>

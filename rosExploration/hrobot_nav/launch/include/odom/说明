@@ -1,0 +1,1 @@
+rrt_test_ding1.launch中使用的是move_baseSafe_ding.launch，现尝试根据网上资料和rrt exploration的数据对其进行修改，新建move_baseSafe_dingnew.launch文件。
